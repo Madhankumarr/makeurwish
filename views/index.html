@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html ng-app='myapp'>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Sign Up | Make Ur Wish</title>
+		<script type="text/javascript" src="/javascripts/angular.js"></script>
+		<script type="text/javascript" src="/javascripts/app.js"></script>
+		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="/stylesheets/style.css"></link>
+	</head>
+	<body ng-controller="SignupController as signup">
+		<div class="container-fluid">
+            <h2>Make Ur Wish</h2>
+            <div class="container" >
+         <div id="message" ng-show="status"> {{message}} </div>
+                <div ng-model="signup.hello"></div>
+                <h1>Sign Up</h1>
+			<form class="border" name="signUpForm" action="home" method="post"  novalidate>
+                
+                <div class="formelements">
+
+
+                    <input type="email" class="form-control" name="email" ng-model="signup.email"  placeholder="Email" ng-focus="status=false" required/>
+                     <input type="text" class="form-control" name="celebName" ng-model="signup.celebName" placeholder="Celebrant's Name" ng-focus="status=false" required/>
+                     
+                     <input type="email" class="form-control" name="celebEmail" ng-model="signup.celebEmail" placeholder="Celebrant's Email" ng-focus="status=false" required/>
+                     <select class="form-control" name="occationName" ng-model="signup.occation" id="occationName" ng-focus="status=false" required>
+                                <option value="birthday" selected="selected">Birthday</option>
+                                <option value="anniversary">Anniversary</option>
+                                <option value="congrats">Congrats</option>
+                                <option value="bestwishes">Bestwishes</option>
+                    </select>
+                    <h4>Occation Date</h4> 
+                 <input type="date" class="form-control" name="occation" ng-model="signup.date"  placeholder="Occation date- mm/dd/yyy" ng-focus="status=false" required/>
+
+                 <input type="button" id='addUser' ng-click="signup.addUser()" ng-show="buttonShow" style="margin-bottom:10px" value="Want your friends to wish?" class="btn btn-primary"/>
+               
+            <div id="friend">
+                
+            </div>
+           
+					<input type="button" ng-click="signUpForm.$valid && signup.signupUser()" value="Signup" class="btn btn-primary"/>
+              </div>
+					
+		   </form>
+                                                                              
+        </div>
+
+		</div>
+
+            <footer>@2014 MakeUrWish</footer>
+	</body>
+<script type="text/javascript">
+    
+	</script>
+</html>

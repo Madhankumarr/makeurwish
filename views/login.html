@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html ng-app='myapp'>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Login | Make Ur Wish</title>
+		<script type="text/javascript" src="/javascripts/angular.min.js"></script>
+		<script type="text/javascript" src="/javascripts/app.js"></script>
+		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css"></link>
+        <link rel="stylesheet" href="/stylesheets/style.css"></link>
+	</head>
+    <style type="text/css">
+            #snowflakeContainer {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+            }
+            .snowflake {
+                padding-left: 15px;
+                font-family: Cambria, Georgia, serif;
+                font-size: 11px;
+                line-height: 24px;
+                position: fixed;
+                color: #FFFFFF;
+                user-select: none;
+                z-index: 1000;
+            }
+            .snowflake:hover {
+                cursor: default;
+            }
+
+
+    </style>
+	<body>
+		<div class="container-fluid">
+            <h2>Make Ur Wish</h2>
+            <div class="container " ng-controller="logincontroller as login">
+                    
+                <div id="message" ng-show='status'> {{message}} </div>
+                <h1>Login</h1>
+			   <form class="border" name="loginForm" action="home" method="post"  novalidate>
+                <div id="snowflakeContainer">
+                    <p class="snowflake">*</p>
+                </div>
+                <div class="formelements">
+                    <input type="Email" class="form-control" name="fname" ng-model="login.credentials.userName" ng-focus="status=false" id="focusedInput" placeholder="Email"  required/>
+                
+                
+				<input type="password"  class="form-control" name="pass" ng-model="login.credentials.password" ng-focus="status=false" placeholder="Password" required />
+               <div>
+
+
+               </div>
+                 
+					<input type="button" ng-click="loginForm.$valid && login.validUser()" value="Login" class="btn btn-primary"/>
+              </div>
+					
+		   </form>
+           
+                                                                              
+        </div>
+
+		</div>
+
+         <footer>@2014 MakeUrWish</footer>
+
+	</body>
+    <script src="/javascripts/fallingsnow_v6.js"></script>
+    <script type="text/javascript">
+
+
+
+    </script>
+	
+</html>

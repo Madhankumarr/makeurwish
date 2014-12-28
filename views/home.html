@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html  ng-app='myapp'>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Make Ur Wish</title>
+		<script type="text/javascript" src="/javascripts/angular.js"></script>
+		<script type="text/javascript" src="/javascripts/app.js"></script>
+		<link rel="stylesheet" href="/stylesheets/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="/stylesheets/style.css"></link>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	</head>
+	<body>
+        <div class="container-fluid">
+            <h2>Make Ur Wish</h2>
+            <div class="container" ng-controller='homecontroller as home'>
+                  <div id="message" ng-show='status'> {{message}} </div>
+			<form class="border" name="wishForm"  enctype="multipart/form-data" ng-submit='home.submitForm()' novalidate>
+                <h1 class="head">Your Name</h1>
+                   <input type="text" class="form-control" name="fname" ng-model="home.Name" placeh
+                   older="Your Name" required/>
+
+                 <h1 class="head">Your Wish</h1>
+                <div class="formelements">
+                 
+          <textarea class="form-control" rows="2" id="wish" name='wish' ng-model='home.wish' required></textarea>
+                     <h1 class="head">Upload a pic</h1>
+                    <span class="btn btn-default btn-file">
+                     <input type="file" id="pic" name="pic" class="btn" fileread='home.pic' accept="image/*" required>Select file<i class="fa fa-upload icons"></i></input>
+                     </span> 
+                     
+                     <span id="fileinfo" ng-model="home.fileinfo"></span>
+                     <br/>
+            
+
+                  <div id="images" class='photoview' ng-model="home.images"></div>
+                   <output id="list"></output>
+                 
+					<input type="submit" value="Post" class="btn btn-primary"/>
+              </div>
+					
+		   </form>
+                                                                               
+        </div>
+
+		</div>
+
+         <footer>@2014 MakeUrWish</footer>
+        
+	</body>
+	<script type="text/javascript">
+     
+     var fileinfo=document.getElementById('fileinfo');
+     var images= document.getElementById('images');
+    function handleFileSelect(evt) {
+    var files = evt.target.files; // FileList object
+
+    // Loop through the FileList and render image files as thumbnails.
+    for (var i = 0, f; f = files[i]; i++) {
+
+      // Only process image files.
+      if (!f.type.match('image.*')) {
+        continue;
+      }
+      fileinfo.innerHTML=f.name+" "+f.size+' '+"bytes";
+        
+      var reader = new FileReader();
+
+      // Closure to capture the file information.
+      reader.onload = (function(theFile) {
+        return function(e) {
+          // Render thumbnail.
+          var span = document.createElement('span');
+          span.setAttribute('class','photoview');
+          var span2=document.createElement('span');
+          span2.innerHTML="<i class='fa fa-close icons closemark'></i>";
+          span.innerHTML = ['<img id="previewImage" class="thumb" src="', e.target.result,
+                            '" title="', escape(theFile.name), '"/>'].join('');
+
+          
+          images.innerHTML=span.innerHTML;
+
+          images.appendChild(span2);
+           span2.addEventListener('click',function(event)
+             {
+               images.innerHTML="";
+                 fileinfo.innerHTML="";
+                var file = document.getElementById("pic");
+                file.value = file.defaultValue;
+               
+            });
+
+        };
+      })(f);
+
+      // Read in the image file as a data URL.
+      reader.readAsDataURL(f);
+         document.getElementById('pic').val="Uploaded";
+    }
+  }
+        
+ 
+  document.getElementById('pic').addEventListener('change', handleFileSelect, false);
+    
+	</script>
+</html>

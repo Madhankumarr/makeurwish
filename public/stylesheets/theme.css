@@ -1,0 +1,91 @@
+
+*{
+	margin:0;
+	padding:0;
+}
+
+ @font-face {
+           font-family: 'GreatVibes';
+           src: url(/fonts/GreatVibes-Regular.ttf);
+  }
+@font-face{
+font-family: 'sansation-light';
+src:url(/fonts/Sansation_Light.ttf);
+}
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+
+.section.static
+{
+  background-attachment:fixed;
+  background-position:50% 50%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height:500px;
+  opacity: 0.8;
+}
+section.section.static h1 {
+  color: rgba(255, 255, 255, 0.8);
+  font-family:'sansation-light';
+  font-size: 48px;
+  line-height: 600px;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.section.detail
+{
+	padding: 45px 0;
+	background-image: url('/images/symphony.png');
+	color:#248FB2;
+  text-align: center;
+	border: 2px solid #248FB2;
+}
+
+.section p {
+
+  font-size: 30px;
+  font-family: 'GreatVibes';
+  font-weight: 300;
+}
+
+.section.static.image1
+{
+
+background-image:url('/sam.jpg');
+
+}
+.section.static.image2
+{
+  background-image: url('/kish.jpg');
+}
+
+.heading h1
+{
+	text-align: center;
+	font-size: 25px;
+	font-family: 'GreatVibes';
+}
+
+#snowflakeContainer {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+  }
+.snowflake {
+    padding-left: 15px;
+    font-family: Cambria, Georgia, serif;
+    font-size: 11px;
+    line-height: 24px;
+    position: fixed;
+    color: violet;
+    user-select: none;
+    z-index: 1000;
+}
+.snowflake:hover {
+    cursor: default;
+}

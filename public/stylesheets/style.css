@@ -1,0 +1,186 @@
+@font-face{
+font-family: 'GreatVibes';
+src: url(/fonts/GreatVibes-Regular.ttf);
+  }
+@font-face{
+font-family: 'sansation-light';
+src:url(/fonts/Sansation_Light.ttf);
+}
+@font-face{
+font-family: 'fontawesom';
+src:url(/fonts/fontawesome-webfont.ttf);
+}
+body{
+ background: #248FB2;
+ color:white;
+}
+.container{
+    padding:50px;   
+    border: 3px dotted 	#E68AE6;
+    border-radius: 5px;
+}
+.border{
+    border-radius: 5px;                              
+}
+
+.form-control{
+ margin-bottom: 10px;
+}
+h1{
+    font-family: 'sansation-light';
+    color:white
+}
+.btn-primary{
+   
+    border-color: #19FFFF;
+}
+h2{
+     font-family: 'GreatVibes';
+    color:#E6E6E6;
+    text-align: center;
+    font-size: 60px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0.5);
+    outline: none;
+    cursor: inherit;
+    display: block;
+    border-color: #19FFFF;
+    
+
+}
+#message
+{
+    margin: 0 auto;
+    border-bottom: 1px solid white;
+    text-align: center;
+    font-size: 20px;
+    font-family: calibri;
+}
+#selectedpic
+{
+    padding-bottom: 20px;   
+}
+.thumb
+{
+    border: 1px solid white;
+    border-radius:5px;
+    height: 200px;
+    margin: 10px; 
+}
+.icons
+{
+  margin: 3px;
+  
+}
+.message
+{
+  margin:0 auto;
+  width: 300px;
+  height:40px;
+  text-align: center;
+  background: #FFCCCC;
+  color:white;
+
+}   
+.photoview
+{
+  position:relative;
+  display: inline-block;
+}  
+ .closemark{
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    opacity: 0.6;
+    background-color: black;
+    position: absolute;
+    top:15px;
+    right:12px; 
+    vertical-align: top;
+    cursor: pointer;
+
+}
+
+h4{
+font-family: 'sansation-light';           
+color:white
+}
+ .ng-invalid.ng-dirty
+{
+  border-color:#FA787E;
+}
+.ng-valid.ng-dirty
+{
+  border-color:#78FA89;
+}
+ .emailblock{
+    background-color: #f5f5f5;
+    border: 1px solid #d9d9d9;
+    cursor: default;
+    height: 20px;
+    white-space: nowrap;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;  
+}
+ .emailclosemark{
+    display: inline-block;
+    width: 14px;
+    height: 20px;
+    background: no-repeat url(/images/contactarea_sprite_2.gif) -4px 0;
+    opacity: .6;
+    vertical-align: top;
+    cursor: pointer;
+    z-index: 9999;
+ }
+ .head
+ {
+    font-size: 25px;
+ }
+
+ footer
+ {
+        position: fixed;
+        bottom: 0;
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        font-style: italic;
+
+ }
+@media all and (max-width: 500px) {
+    h1
+    {
+    font-size: 20px;
+    }
+    h2
+    {
+    font-size: 40px;
+    }
+    .container
+    {
+    padding:25px;
+    }
+    #message
+    {
+        font-size: 15px;
+    }
+
+}
+
+
+
