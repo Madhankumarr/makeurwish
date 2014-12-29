@@ -47,17 +47,17 @@ router.get('/wishes',function(req,res){
 router.post('/home',function(req,res,next){
 
 loginSchema.find({username:req.body.fname,
-				  password:req.body.pass}).exec(function(err,login){
+          password:req.body.pass}).exec(function(err,login){
 
-				  	if(err || login.length<=0){
+            if(err || login.length<=0){
 
-				  		console.log('Invalid User'+err);
+              console.log('Invalid User'+err);
               console.log(req.body.fname +" "+req.body.pass);
-				  		res.json({message:'Invalid Email or Password',status:'true'});
+              res.json({message:'Invalid Email or Password',status:'true'});
 
-				  	}
-				  	else if(login)
-				  	{
+            }
+            else if(login)
+            {
               if(login[0].status==1)
               {
                 console.log("user already wished!");
@@ -73,9 +73,9 @@ loginSchema.find({username:req.body.fname,
                res.contentType('application/html');
                res.redirect('/userhome');
              }
-				  		 
-				  	}
-				  });
+               
+            }
+          });
 
 
 });
@@ -332,7 +332,7 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =48;
+                rule.minute =35;
               
 
                 var j = schedule.scheduleJob(rule, function(){
