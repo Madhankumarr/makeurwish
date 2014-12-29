@@ -241,7 +241,7 @@ router.post('/signup', function (req, res){
                             from:'MakeUrWish<admin@makeawish.com>',
                             to: req.body.email,
                             subject:"MakeUrWish - "+req.body.celebName+" - "+req.body.occation,
-                            html:"<!DOCTYPE html><html><body><b>Make a wish</b><br/>A Warm greetins from MakeUrWish,<br/><a href='http://makeurwish.herokuapp.com/mylogin'>Click here</a> to wish "+req.body.celebName+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"</i></b></body></html>"
+                            html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/mylogin'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"
                           };
 
                           var mail1=mailUtil(mailOption1);
@@ -278,7 +278,7 @@ router.post('/signup', function (req, res){
                                     from:'MakeUrWish<admin@makeawish.com>',
                                     to: req.body.emails[i],
                                     subject:"MakeUrWish -"+req.body.celebName+" - "+req.body.occation,
-                                    html:"<!DOCTYPE html><html><body><b>Make a wish</b><br/><a href='http://makeurwish.herokuapp.com/mylogin'>Click here</a> to wish "+req.body.celebName+"<br/>Your pass:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"</i></b></body></html>"};
+                                    html:"<!DOCTYPE html><html><div style='color:#FFF; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS'; text-align:center;font-size: 35px; border-bottom:1px solid white; font-style: initial'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/mylogin'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"};
 
                                   var mail2=mailUtil(mailOption1);
                                              userrec.save(function(err){
@@ -330,7 +330,7 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =35;
+                rule.minute =3;
               
 
                 var j = schedule.scheduleJob(rule, function(){
@@ -355,7 +355,7 @@ try
                                               from:'MakeUrWish<admin@makeawish.com>',
                                               to: mails.toString(),
                                               subject:"Greetings- makeurwish.com",
-                                              html:"<!DOCTYPE html><html><body><b>Greetings from MakeUrWish</b><br/> Here comes the wishes of your friends for "+user.celebName+'&apos;s '+user.occation+" <br/><a href='http://makeurwish.herokuapp.com/"+link+"'>Click Here</a></body></html>"
+                                              html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2>Hi "+user.celebName+","+"<br/><b>A warm greetings from MakeUrWish,</b><br/><span class='content'> Take a look at special wishes of your friends for you. <br/><a href='http://makeurwish.herokuapp.com/"+link+"'><span  class='btn btn-primary'>Click Here</span></a><span></div></div></html>"
                                             };
                                         mailUtil(mailOption1).sendMail();
                                       }
@@ -414,7 +414,7 @@ try
                                                                 from:'MakeUrWish<admin@makeawish.com>',
                                                                 to: user.celebMail,
                                                                 subject:"Greetings- makeurwish.com",
-                                                                html:"<!DOCTYPE html><html><body>Hi "+user.celebName+","+"<br/><b>A warm greetings from MakeUrWish</b><br/> Take a look at special wishes of your friends for you. <br/><a href='http://makeurwish.herokuapp.com/"+link+"'>Click Here</a></body></html>"
+                                                                html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2>Hi "+user.celebName+","+"<br/><b>A warm greetings from MakeUrWish,</b><br/><span class='content'> Take a look at special wishes of your friends for you. <br/><a href='http://makeurwish.herokuapp.com/"+link+"'><span  class='btn btn-primary'>Click Here</span></a><span></div></div></html>"
 
                                                              }
                                                              mailUtil(mailOption).sendMail();
