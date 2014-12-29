@@ -35,7 +35,7 @@ section.section.static h1 {
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 .section.detail
 {
@@ -53,15 +53,9 @@ section.section.static h1 {
   font-weight: 300;
 }
 
-.section.static.image1
+.headingwhite
 {
-
-background-image:url('/sam.jpg');
-
-}
-.section.static.image2
-{
-  background-image: url('/kish.jpg');
+  background: aliceblue;
 }
 
 .heading h1
@@ -82,7 +76,7 @@ background-image:url('/sam.jpg');
     font-size: 11px;
     line-height: 24px;
     position: fixed;
-    color: violet;
+    color: makeurwish;
     user-select: none;
     z-index: 1000;
 }
