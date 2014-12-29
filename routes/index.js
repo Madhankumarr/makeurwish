@@ -240,9 +240,8 @@ router.post('/signup', function (req, res){
                           var mailOption1={
                             from:'MakeUrWish<admin@makeawish.com>',
                             to: req.body.email,
-                            subject:"MakeUrWish -"+req.body.celebName+"-"+req.body.occation,
-                            text:"Click this link",
-                            html:"<b>Make a wish</b><br/>A Warm greetins from MakeUrWish,<br/><a href='http://192.168.3.103:3000/mylogin'>Click here</a> to wish "+req.body.celebName+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"</i></b>"
+                            subject:"MakeUrWish - "+req.body.celebName+" - "+req.body.occation,
+                            html:"<!DOCTYPE html><html><body><b>Make a wish</b><br/>A Warm greetins from MakeUrWish,<br/><a href='http://makeurwish.herokuapp.com/mylogin'>Click here</a> to wish "+req.body.celebName+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"</i></b></body></html>"
                           };
 
                           var mail1=mailUtil(mailOption1);
@@ -278,9 +277,8 @@ router.post('/signup', function (req, res){
                                   var mailOption1={
                                     from:'MakeUrWish<admin@makeawish.com>',
                                     to: req.body.emails[i],
-                                    subject:"MakeUrWish -"+req.body.celebName+"-"+req.body.occation,
-                                    text:"Click this link",
-                                    html:"<b>Make a wish</b><br/><a href='http://192.168.3.103:3000/mylogin'>Click here</a> to wish "+req.body.celebName+"<br/>Your pass:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"</i></b>"};
+                                    subject:"MakeUrWish -"+req.body.celebName+" - "+req.body.occation,
+                                    html:"<!DOCTYPE html><html><body><b>Make a wish</b><br/><a href='http://makeurwish.herokuapp.com/mylogin'>Click here</a> to wish "+req.body.celebName+"<br/>Your pass:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"</i></b></body></html>"};
 
                                   var mail2=mailUtil(mailOption1);
                                              userrec.save(function(err){
@@ -357,7 +355,7 @@ try
                                               from:'MakeUrWish<admin@makeawish.com>',
                                               to: mails.toString(),
                                               subject:"Greetings- makeurwish.com",
-                                              html:"<b>Greetings from MakeUrWish</b><br/> Here comes the wishes of your friends for "+user.celebName+'&apos;s '+user.occation+" <br/><a href='http://192.168.1.103:3000/"+link+"'>Click Here</a>"
+                                              html:"<!DOCTYPE html><html><body><b>Greetings from MakeUrWish</b><br/> Here comes the wishes of your friends for "+user.celebName+'&apos;s '+user.occation+" <br/><a href='http://makeurwish.herokuapp.com/"+link+"'>Click Here</a></body></html>"
                                             };
                                         mailUtil(mailOption1).sendMail();
                                       }
@@ -416,7 +414,7 @@ try
                                                                 from:'MakeUrWish<admin@makeawish.com>',
                                                                 to: user.celebMail,
                                                                 subject:"Greetings- makeurwish.com",
-                                                                html:"Hi "+user.celebName+","+"<br/><b>A warm greetings from MakeUrWish</b><br/> Take a look at special wishes of your friends for you. <br/><a href='http://192.168.1.103:3000/"+link+"'>Click Here</a>"
+                                                                html:"<!DOCTYPE html><html><body>Hi "+user.celebName+","+"<br/><b>A warm greetings from MakeUrWish</b><br/> Take a look at special wishes of your friends for you. <br/><a href='http://makeurwish.herokuapp.com/"+link+"'>Click Here</a></body></html>"
 
                                                              }
                                                              mailUtil(mailOption).sendMail();
