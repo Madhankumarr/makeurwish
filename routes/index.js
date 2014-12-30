@@ -330,7 +330,7 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =6;
+                rule.minute =9;
                 
 
                 var j = schedule.scheduleJob(rule, function(){
