@@ -40,7 +40,7 @@ section.section.static h1 {
 .section.detail
 {
 	padding: 45px 0;
-	background:#2C82C9;
+	background:#0A4372;
 	color:white;
   text-align: center;
 	border: 1px solid white;
@@ -63,6 +63,8 @@ section.section.static h1 {
 	text-align: center;
 	font-size: 25px;
 	font-family: 'GreatVibes';
+  background:#0A4372;
+  color:white;
 }
 
 #snowflakeContainer {
