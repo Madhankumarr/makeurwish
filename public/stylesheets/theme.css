@@ -40,10 +40,10 @@ section.section.static h1 {
 .section.detail
 {
 	padding: 45px 0;
-	background-image: url('/images/symphony.png');
-	color:#248FB2;
+	background:#2C82C9;
+	color:white;
   text-align: center;
-	border: 1px solid #248FB2;
+	border: 1px solid white;
 }
 
 .section p {
