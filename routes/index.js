@@ -330,7 +330,7 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =3;
+                rule.minute =38;
                 
 
                 var j = schedule.scheduleJob(rule, function(){
@@ -404,7 +404,7 @@ try
                                                           {
                                                             console.log('User schema updated after route creation'+user);
 
-                                                             var emails=[];
+                                                             /**var emails=[];
                                                              emails.push(user.email);
                                                              emails.concat(user.friendsMail);
                                                              mailSender(user,emails,link);
@@ -417,7 +417,7 @@ try
                                                                 html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2>Hi "+user.celebName+","+"<br/><b>A warm greetings from MakeUrWish,</b><br/><span class='content'> Take a look at special wishes of your friends for you. <br/><a href='http://makeurwish.herokuapp.com/"+link+"'><span  class='btn btn-primary'>Click Here</span></a><span></div></div></html>"
 
                                                              }
-                                                             mailUtil(mailOption).sendMail();
+                                                             mailUtil(mailOption).sendMail();**/
 
 
 
