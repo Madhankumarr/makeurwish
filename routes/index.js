@@ -19,6 +19,12 @@ router.get('/mylogin',function(req,res){
   res.render('login.html', { title: 'Make ur wish | Home' });
 
 });
+router.get('/29871055',function(req,res){
+
+  res.render('29871055.html', { title: 'Make ur wish | Home' });
+
+});
+
 
 
 router.get('/userhome',function(req,res){
@@ -330,7 +336,7 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =15;
+                rule.minute =50;
                 
 
                 var j = schedule.scheduleJob(rule, function(){
