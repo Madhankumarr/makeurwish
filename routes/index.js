@@ -330,16 +330,16 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =28;
+                rule.minute =32;
                 
 
                 var j = schedule.scheduleJob(rule, function(){
                     console.log('Scheduling started for '+Date.now());
 
                      var datenow=new Date(Date.now());
-                      datenow.setHours(18,27,0,0);
+                      datenow.setHours(18,31,0,0);
                       console.log(datenow);
-                     usersSchema.find({occdate:datenow,status:'created'}).exec(function(err,users){
+                     usersSchema.find({status:'created'}).exec(function(err,users){
                       if(err)
                       {
                         console.log("error searching occation date");
