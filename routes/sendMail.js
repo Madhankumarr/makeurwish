@@ -33,19 +33,19 @@ module.exports=function(info)
   		},
   		sendMail:function()
   		{
-  			smtpTransport.sendMail(mailOptions,function(error,res)
+  			setTimeout(smtpTransport.sendMail(mailOptions,function(error,res)
   				{
   					if(error){
-  						console.log("Error sending mail "+res);
+  						console.log("Error sending mail "+info.to+' '+error);
   						return({status:'failure'});
 
   					}
   					else
   					{
-  						console.log("Mail sent: "+res.message);
+  						console.log("Mail sent: "+info.to);
   						return({status:'success'});
   					}
-  				});
+  				}),2000);
   		}
 
   };
