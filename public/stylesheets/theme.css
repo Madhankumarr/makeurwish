@@ -43,7 +43,7 @@ section.section.static h1 {
 	background-image: url('/images/symphony.png');
 	color:#248FB2;
   text-align: center;
-	border: 2px solid #248FB2;
+	border: 1px solid #248FB2;
 }
 
 .section p {
@@ -76,7 +76,7 @@ section.section.static h1 {
     font-size: 11px;
     line-height: 24px;
     position: fixed;
-    color: makeurwish;
+    color: white;
     user-select: none;
     z-index: 1000;
 }
