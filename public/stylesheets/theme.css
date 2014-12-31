@@ -26,21 +26,26 @@ src:url(/fonts/Sansation_Light.ttf);
   background-repeat: no-repeat;
   height:500px;
   opacity: 0.8;
+
 }
-section.section.static h1 {
+section.section.static .container {
   color: rgba(255, 255, 255, 0.8);
   font-family:'sansation-light';
-  font-size: 48px;
-  line-height: 600px;
+  font-size: 40px;
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
+
+section.section.static .container h1{
+  line-height: 600px;
+
+}
 .section.detail
 {
 	padding: 45px 0;
-	background:#0A4372;
+	background:#1287E7;
 	color:white;
   text-align: center;
 	border: 1px solid white;
@@ -63,7 +68,7 @@ section.section.static h1 {
 	text-align: center;
 	font-size: 25px;
 	font-family: 'GreatVibes';
-  background:#0A4372;
+  background:#1287E7;
   color:white;
 }
 
@@ -85,3 +90,4 @@ section.section.static h1 {
 .snowflake:hover {
     cursor: default;
 }
+.
