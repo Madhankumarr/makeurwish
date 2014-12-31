@@ -122,7 +122,7 @@ if(req.session.username!=undefined && req.session.password!=undefined)
                 {
                     var temp_path = this.openedFiles[0].path;
                   /* The file name of the uploaded file */
-                   file_name =req.session.wishid+this.openedFiles[0].name;
+                   file_name =req.session.wishid+this.openedFiles[0].name+Date.now();
                    console.log(this.openedFiles[0].name);
                   /* Location where we want to copy the uploaded file */
                   var new_location = 'uploads/';
@@ -343,9 +343,9 @@ try
                     console.log('Scheduling started for '+Date.now());
 
                      var datenow=new Date(Date.now());
-                      datenow.setHours(18,31,0,0);
+                      datenow.setHours(0,0,0,0);
                       console.log(datenow);
-                     usersSchema.find({status:'created'}).exec(function(err,users){
+                     usersSchema.find({occdate:datenow,status:'created'}).exec(function(err,users){
                       if(err)
                       {
                         console.log("error searching occation date");
