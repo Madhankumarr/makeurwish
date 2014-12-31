@@ -32,7 +32,6 @@ section.section.static .container {
   color: rgba(255, 255, 255, 0.8);
   font-family:'sansation-light';
   font-size: 40px;
-  font-weight: 700;
   text-align: center;
   text-transform: uppercase;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
@@ -90,4 +89,15 @@ section.section.static .container h1{
 .snowflake:hover {
     cursor: default;
 }
-.
+
+@media all and (max-width: 600px) {
+ section.section.static .container {
+  font-size: 30px;
+  line-height:500px;
+
+ }
+  .section p {
+    font-size: 20px;
+  }
+ 
+}
