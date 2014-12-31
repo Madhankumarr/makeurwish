@@ -3,7 +3,7 @@ var smtpTransport=nodemailer.createTransport({
 service:"gmail",
 auth:{
 user:"cherrybrowncabs@gmail.com",
-pass:"cherrycabs"
+pass:"cherrycabs123"
 }
 });
 module.exports=function(info)
@@ -33,7 +33,7 @@ module.exports=function(info)
   		},
   		sendMail:function()
   		{
-  			setTimeout(smtpTransport.sendMail(mailOptions,function(error,res)
+  			smtpTransport.sendMail(mailOptions,function(error,res)
   				{
   					if(error){
   						console.log("Error sending mail "+info.to+' '+error);
@@ -45,7 +45,7 @@ module.exports=function(info)
   						console.log("Mail sent: "+info.to);
   						return({status:'success'});
   					}
-  				}),2000);
+  				});
   		}
 
   };
