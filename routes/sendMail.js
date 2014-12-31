@@ -2,8 +2,8 @@ var nodemailer=require('nodemailer');
 var smtpTransport=nodemailer.createTransport({
 service:"gmail",
 auth:{
-user:"cherrybrowncabs@gmail.com",
-pass:"cherrycabs123"
+user:"makeurwishes@gmail.com",
+pass:"welcomemadhan"
 }
 });
 module.exports=function(info)
