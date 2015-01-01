@@ -231,8 +231,8 @@ router.post('/signup', function (req, res){
                              celebName:req.body.celebName,
                              celebMail:req.body.celebEmail,
                              occation: req.body.occation,
-                             occdate:new Date(req.body.date) ,
-                             timeStamp: Date.now(),
+                             occdate:(new Date(req.body.date)).setHours(0,0,0,0),
+                             timeStamp: new Date(Date.now()),
                              friendsMail:req.body.emails,
                              status:"created"
                           });
@@ -340,7 +340,7 @@ try
 
 
                 var j = schedule.scheduleJob(rule, function(){
-                    console.log('Scheduling started for '+Date.now());
+                    console.log('Scheduling started for '+new Date(Date.now());
 
                      var datenow=new Date(Date.now());
                       datenow.setHours(5,30,0,0);
