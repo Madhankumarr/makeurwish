@@ -336,11 +336,11 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =42;
+                rule.minute =39;
 
 
                 var j = schedule.scheduleJob(rule, function(){
-                    console.log('Scheduling started for '+new Date(Date.now());
+                    console.log('Scheduling started for '+new Date(Date.now()));
 
                      var datenow=new Date(Date.now());
                       datenow.setHours(5,30,0,0);
