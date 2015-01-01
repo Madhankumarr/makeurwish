@@ -336,7 +336,7 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =38;
+                rule.minute =42;
 
 
                 var j = schedule.scheduleJob(rule, function(){
@@ -344,7 +344,7 @@ try
 
                      var datenow=new Date(Date.now());
                       datenow.setHours(5,30,0,0);
-                      console.log(datenow);
+                      console.log(new Date(datenow));
                      usersSchema.find({occdate:datenow,status:'created'}).exec(function(err,users){
                       if(err)
                       {
