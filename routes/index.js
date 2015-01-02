@@ -341,14 +341,14 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =11;
+                rule.minute =2;
 
 
                 var j = schedule.scheduleJob(rule, function(){
                     console.log('Scheduling started for '+new Date(Date.now()));
 
                      var datenow=(new Date(Date.now())).setHours(0,0,0,0);
-                    var datenow=moment.utc(datenow);
+                    var datenow=datenow.toString();
                      usersSchema.find({occdate:datenow,status:'created' }).exec(function(err,users){
                       if(err)
                       {
