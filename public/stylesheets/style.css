@@ -30,9 +30,11 @@ h1{
     font-family: 'sansation-light';
     color:white
 }
-.btn-primary{
-   
+
+.btn-primary {
+    color: #FFF;
     border-color: #19FFFF;
+    background-color: #248FB2;
 }
 h2{
      font-family: 'GreatVibes';
