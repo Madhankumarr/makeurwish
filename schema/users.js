@@ -5,7 +5,7 @@ email:String,
 celebName:String,
 celebMail:String,
 occation:String,
-occdate:Date,
+occdate:String,
 timeStamp:String,
 friendsMail:Array,
 status:String

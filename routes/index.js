@@ -213,7 +213,11 @@ router.post('/signup', function (req, res){
      occationdt=req.body.date;
      console.log(occationdt);
      var randomnumber=Math.floor(Math.random()*5001);
-
+     var mydate=new Date(occationdt);
+     var mydate1=moment.utc([mydate.getUTCFullYear(),mydate.getUTCMonth(),mydate.getUTCDate(),mydate.getUTCHours(),mydate.getUTCMinutes(),0,0]);
+    
+    
+     
      counterSchema.find({counterid:'wishid'}).exec(function(err,counter){
 
             if(err){
@@ -231,7 +235,7 @@ router.post('/signup', function (req, res){
                              celebName:req.body.celebName,
                              celebMail:req.body.celebEmail,
                              occation: req.body.occation,
-                             occdate:(new Date(req.body.date)).setHours(0,0,0,0),
+                             occdate:mydate1,
                              timeStamp: new Date(Date.now()),
                              friendsMail:req.body.emails,
                              status:"created"
@@ -318,10 +322,11 @@ router.post('/signup', function (req, res){
                         res.json({status:'To wish '+req.body.celebName+' click the link sent to your mail',counter:mycounter});
                          
             }
-          });
-    
+          }); 
+      
             
-    }
+            
+       } 
     catch(err)
     {
       res.json({status:'Server Error. Please try again later'});
@@ -336,14 +341,14 @@ try
 
                 var schedule = require('node-schedule');
                 var rule = new schedule.RecurrenceRule();
-                rule.minute =58;
+                rule.minute =11;
 
 
                 var j = schedule.scheduleJob(rule, function(){
                     console.log('Scheduling started for '+new Date(Date.now()));
 
-                     var datenow=(new Date(Date.now())).setHours(5,30,0,0);
-                      console.log(new Date(datenow));
+                     var datenow=(new Date(Date.now())).setHours(0,0,0,0);
+                    var datenow=moment.utc(datenow);
                      usersSchema.find({occdate:datenow,status:'created' }).exec(function(err,users){
                       if(err)
                       {
