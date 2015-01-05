@@ -350,9 +350,9 @@ try
                 var j = schedule.scheduleJob(rule, function(){
                     console.log('Scheduling started for '+new Date(Date.now()));
 
-                     var datenow=(new Date(Date.now())).setHours(0,0,0,0);
-                    var date1=datenow.getUTCFullYear()+"/"+datenow.getUTCMonth()+"/"+datenow.getUTCDate();
-                     usersSchema.find({occdate:date1e,status:'created' }).exec(function(err,users){
+                     var datenow=new Date(Date.now());
+                    var date1=datenow.getFullYear()+"/"+datenow.getMonth()+"/"+datenow.getDate();
+                     usersSchema.find({occdate:date1,status:'created' }).exec(function(err,users){
                       if(err)
                       {
                         console.log("error searching occation date");
