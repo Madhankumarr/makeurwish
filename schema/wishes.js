@@ -4,5 +4,6 @@ username:String,
 name:String,
 wishid:String,
 wish:String,
-photopath:String
+photopath:String,
+timeStamp:String
 });
