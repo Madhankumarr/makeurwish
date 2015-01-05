@@ -148,7 +148,8 @@ if(req.session.username!=undefined && req.session.password!=undefined)
                   name:myfields.fname,
                   wishid:req.session.wishid,
                   wish:myfields.wish,
-                  photopath:file_name
+                  photopath:file_name,
+                  timeStamp:new Date(Date.now())
             });
 
 
@@ -214,7 +215,7 @@ router.post('/signup', function (req, res){
      console.log(occationdt);
      var randomnumber=Math.floor(Math.random()*5001);
      var mydate=new Date(occationdt);
-     var mydate1=moment.utc([mydate.getUTCFullYear(),mydate.getUTCMonth(),mydate.getUTCDate(),mydate.getUTCHours(),mydate.getUTCMinutes(),0,0]);
+     var mydate1=mydate.getUTCFullYear()+"/"+mydate.getUTCMonth()+"/"+mydate.getUTCDate();
     
     
      
@@ -340,16 +341,18 @@ try
 {
 
                 var schedule = require('node-schedule');
-                var rule = new schedule.RecurrenceRule();
-                rule.minute =2;
+                 var rule = new schedule.RecurrenceRule();
+                  rule.dayOfWeek = [0, new schedule.Range(0, 6)];
+                  rule.hour = 1;
+                  rule.minute = 0;
 
 
                 var j = schedule.scheduleJob(rule, function(){
                     console.log('Scheduling started for '+new Date(Date.now()));
 
                      var datenow=(new Date(Date.now())).setHours(0,0,0,0);
-                    var datenow=datenow.toString();
-                     usersSchema.find({occdate:datenow,status:'created' }).exec(function(err,users){
+                    var date1=datenow.getUTCFullYear()+"/"+datenow.getUTCMonth()+"/"+datenow.getUTCDate();
+                     usersSchema.find({occdate:date1e,status:'created' }).exec(function(err,users){
                       if(err)
                       {
                         console.log("error searching occation date");
