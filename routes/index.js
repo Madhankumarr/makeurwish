@@ -352,7 +352,7 @@ try
                  var rule = new schedule.RecurrenceRule();
                   rule.dayOfWeek = [0, new schedule.Range(0, 6)];
                   rule.hour = 15;
-                  rule.minute =55;
+                  rule.minute =59;
 
 
                 var j = schedule.scheduleJob(rule, function(){
