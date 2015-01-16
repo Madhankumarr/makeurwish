@@ -106,7 +106,7 @@ app.controller('homecontroller',function($scope,$http){
                         })
                        .error(function(data, status, headers, config) {
                             console.log("error");
-                             $scope.message = data.status;
+                             $scope.message = data;
                               $scope.status=true;
                               document.forms.namedItem("wishForm").reset();
                               images.innerHTML="";
