@@ -59,28 +59,62 @@ app.controller('homecontroller',function($scope,$http){
 
  var fd= new FormData(document.forms.namedItem("wishForm"));
     console.log(fd);
-       $http.post('upload', fd, {
-        withCredentials: true,
-        headers: {'Content-Type': undefined },
-        transformRequest: angular.identity,
-        enctype:'multipart/form-data'
-    }).success( function(data) {
-            console.log(data);
-                    $scope.message = data.status;
-                    $scope.status=true;
-                    document.forms.namedItem("wishForm").reset();
-                    images.innerHTML="";
-                    fileinfo.innerHTML="";
+
+
+                  var name= document.getElementById('pic');
+                 var alpha=name.files[0];
+                console.log(alpha.name);
+                 var fmdata= new FormData();
+                 fmdata.append('file',alpha);
+
+                 $http.post('http://makeurwish.tk/fileupload.php', fmdata, {
+                        withCredentials: true,
+                        headers: {'Content-Type': undefined },
+                        transformRequest: angular.identity,
+                        enctype:'multipart/form-data'
+                    }).success( function(mydata) {
+                            console.log(mydata);
+                                    $scope.message = mydata.status;
+                                    $scope.status=true;
+
+                                    fd.append('photopath',mydata.filename);
+                                   if(mydata.upload==1) 
+                                   {
+                                        $http.post('upload', fd, {
+                                            withCredentials: true,
+                                            headers: {'Content-Type': undefined },
+                                            transformRequest: angular.identity,
+                                            enctype:'multipart/form-data'
+                                        }).success( function(data) {
+                                                console.log(data);
+                                                        $scope.message = data.status;
+                                                        $scope.status=true;
+
+                                            })
+                                           .error(function(data, status, headers, config) {
+                                                console.log("error");
+                                                 $scope.message = data.status;
+                                                  $scope.status=true;
+                                                 
+                                      } );
+                                    }
+
+                                    document.forms.namedItem("wishForm").reset();
+                                    images.innerHTML="";
+                                    fileinfo.innerHTML="";
+                    
+                        })
+                       .error(function(data, status, headers, config) {
+                            console.log("error");
+                             $scope.message = data.status;
+                              $scope.status=true;
+                              document.forms.namedItem("wishForm").reset();
+                              images.innerHTML="";
+                              fileinfo.innerHTML="";
+                  } );
+
     
-        })
-       .error(function(data, status, headers, config) {
-            console.log("error");
-             $scope.message = data.status;
-              $scope.status=true;
-              document.forms.namedItem("wishForm").reset();
-              images.innerHTML="";
-              fileinfo.innerHTML="";
-  } );
+       
 	
 };
 
@@ -151,8 +185,6 @@ app.controller('homecontroller',function($scope,$http){
     var emailval=document.getElementById('emailval');
     var test=false;
     var val="";
-        
-        
         emailval.addEventListener('keypress',function(event){
         val=emailval.innerText || emailval.textContent;
         console.log(val);
