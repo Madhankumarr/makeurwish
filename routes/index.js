@@ -4,6 +4,7 @@ var loginSchema=require('../schema/login');
 var usersSchema=require('../schema/users');
 var counterSchema=require('../schema/counter');
 var wishesSchema=require('../schema/wishes');
+var filesSchema=require('../schema/files');
 var mailUtil=require('./sendMail');
 var session=require('express-session');
 
@@ -25,6 +26,31 @@ router.get('/29871055',function(req,res){
 
 });
 
+router.get('/fileup',function(req,res){
+
+  res.render('filupload.html', { title: 'Make ur wish | Home' });
+
+});
+
+router.get('/wishes/:wishid',function(req,res){
+
+
+  filesSchema.find({route:req.params.wishid}).exec(function(err,file){
+
+            if(err || file.length<=0){
+              console.log('no file found '+err);
+        
+              res.render('error.html');
+               }
+            else if(file)
+            {
+
+              res.send(file[0].content);  
+            }
+          });
+
+
+});
 
 
 router.get('/userhome',function(req,res){
@@ -96,38 +122,31 @@ if(req.session.username!=undefined && req.session.password!=undefined)
           var form = new formidable.IncomingForm(); 
           var myfields={};
           var file_name="default.jpg";
-
-          
-           
-
           form.parse(req, function(err, fields, files) {
 
             myfields.fname=fields.fname;
             myfields.wish=fields.wish;
+            myfields.photopath='http://localhost/'+fields.photopath;
             console.log(myfields);
             console.log(typeof myfields);
             res.json({'status':'Your post uploaded'});
              
           });
-           
-          
-
           form.on('end', function(fields, files) {
-
 
             try
             {
 
-              if(this.openedFiles[0].name!=undefined && this.openedFiles[0].name!='')
+             /* if(this.openedFiles[0].name!=undefined && this.openedFiles[0].name!='')
                 {
                     var temp_path = this.openedFiles[0].path;
                   /* The file name of the uploaded file */
-                   file_name =req.session.wishid+this.openedFiles[0].name+Date.now();
-                   console.log(this.openedFiles[0].name);
+                  // file_name =Date.now()+req.session.wishid+this.openedFiles[0].name;
+                   //console.log(this.openedFiles[0].name);
                   /* Location where we want to copy the uploaded file */
-                  var new_location = 'uploads/';
+                  //var new_location = 'uploads/';
                  /* Temporary location of our uploaded file */
-                  fs.copy(temp_path, new_location + file_name, function(err) {  
+                /**  fs.copy(temp_path, new_location + file_name, function(err) {  
                     if (err) {
                       console.error(err);
 
@@ -140,7 +159,7 @@ if(req.session.username!=undefined && req.session.password!=undefined)
                else
                {
                console.log('no foto to upload');
-             }
+             }  **/
 
 
              var record=new wishesSchema({
@@ -148,7 +167,7 @@ if(req.session.username!=undefined && req.session.password!=undefined)
                   name:myfields.fname,
                   wishid:req.session.wishid,
                   wish:myfields.wish,
-                  photopath:file_name,
+                  photopath:myfields.photopath,
                   timeStamp:new Date(Date.now())
             });
 
@@ -165,34 +184,23 @@ if(req.session.username!=undefined && req.session.password!=undefined)
 
                        }});
 
-
-
-
            loginSchema.findOneAndUpdate({wishid:req.session.wishid,username:req.session.username,status:0},{status:1}, function(err,user){
 
-                    if(err || user.length<=0){
+                    if(err || user == undefined || user.length<=0){
 
                         console.log("No user found for loginSchema update"+err);
                       }
                       else if(user)
                       {
                           console.log("User Login Schema status updated"+user);
-                       
                       }
-
                 });
-
- 
             }
             catch(err)
-            {
-
+            { 
               console.log('Error in upload '+err);
-              res.json({'status':'Error in upload. Please try again later'});
-              
+              res.json({'status':'Error in upload. Please try again later'});  
             }
-            
-           
           });
       
       }
@@ -343,7 +351,7 @@ try
                 var schedule = require('node-schedule');
                  var rule = new schedule.RecurrenceRule();
                   rule.dayOfWeek = [0, new schedule.Range(0, 6)];
-                  rule.hour = 13;
+                  rule.hour = 1;
                   rule.minute =0;
 
 
@@ -383,62 +391,74 @@ try
 
 
                           /**file writing**/
-                          var fileCreator=function(nameAssigned,template1){
+                         var fileCreator=function(nameAssigned,template1){
+                           
+                            randomnumber=Math.floor(Math.random()*8001);
+                            link=randomnumber.toString()+nameAssigned;
+                             console.log("In write file function for "+link);
+                              var record=new filesSchema({
+                                              wishid:nameAssigned,
+                                              fileName:link,
+                                              content:template1,
+                                              route:link,
+                                              timeStamp:new Date(Date.now())
+                                        });
+                                        record.save(function(err){
+                                                              if(err){
+                                                                    console.log("Error writing wish file in db "+nameAssigned+" Error: "+err);    
+                                                               }
+                                                             else{ 
+                                                                     console.log("wish file added to db "+nameAssigned);
+                                                                      usersSchema.findOneAndUpdate({wishid:nameAssigned,status:'created'},{status:'updated'},
 
+                                                                      function(err,user){
 
-                                randomnumber=Math.floor(Math.random()*8001);
-                                link=randomnumber.toString()+nameAssigned;
-                                           fs.writeFile("views/"+link+".html", template1, function(err) {
+                                                                        if(err || user==null)
+                                                                        {
+                                                                          console.log("User schema update ERROR after route creation"+err);
+
+                                                                        }
+                                                                        else if(user!=null)
+                                                                        {
+                                                                          console.log('User schema updated after route creation'+user);
+                                                                          
+                                                                           var emails=[];
+                                                                               emails.push(user.email);
+                                                                               emails.concat(user.friendsMail);
+                                                                               mailSender(user,emails,link); 
+
+                                                                               mailOption={
+
+                                                                                  from:'MakeUrWish<admin@makeawish.com>',
+                                                                                  to: user.celebMail,
+                                                                                  subject:"Greetings- makeurwish.com",
+                                                                                  html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2>Hi "+user.celebName+","+"<br/><b>A warm greetings from MakeUrWish,</b><br/><span class='content'> Take a look at special wishes of your friends for you. <br/><a href='http://makeurwish.herokuapp.com/"+link+"'><span  class='btn btn-primary'>Click Here</span></a><span></div></div></html>"
+
+                                                                               }
+                                                                               mailUtil(mailOption).sendMail();
+                                                                      }});
+
+                                                   }});
+                               /** fs.writeFile("views/"+link+".html", template1, function(err) {
+    
+                                       
+
 
                                           
+                                          if(err) {
+                                                    console.log("Error in Writing file "+link+" "+err);
+                                                  } 
+                                          else {
+                                                 
+                                                  
+                                                   console.log("The file was saved!-wishid-"+nameAssigned+"-route-"+link);
+                                                  router.get('/'+link,function(req,res){
+                                                           res.render(link+".html", { title: 'test' });
+                                                    });
 
-                                              console.log("In write file function for "+link);
-                                              if(err) {
-                                                        console.log("Error in Writing file "+link+" "+err);
-                                                      } 
-                                              else {
-                                                     
-                                                      
-                                                       console.log("The file was saved!-wishid-"+nameAssigned+"-route-"+link);
-                                                      router.get('/'+link,function(req,res){
-                                                               res.render(link+".html", { title: 'test' });
-                                                        });
-
-                                                       usersSchema.findOneAndUpdate({wishid:nameAssigned,status:'created'},{status:'updated'},
-
-                                                        function(err,user){
-
-                                                          if(err || user==null)
-                                                          {
-                                                            console.log("User schema update ERROR after route creation"+err);
-
-                                                          }
-                                                          else if(user!=null)
-                                                          {
-                                                            console.log('User schema updated after route creation'+user);
-
-                                                         var emails=[];
-                                                             emails.push(user.email);
-                                                             emails.concat(user.friendsMail);
-                                                             mailSender(user,emails,link); 
-
-                                                             mailOption={
-
-                                                                from:'MakeUrWish<admin@makeawish.com>',
-                                                                to: user.celebMail,
-                                                                subject:"Greetings- makeurwish.com",
-                                                                html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2>Hi "+user.celebName+","+"<br/><b>A warm greetings from MakeUrWish,</b><br/><span class='content'> Take a look at special wishes of your friends for you. <br/><a href='http://makeurwish.herokuapp.com/"+link+"'><span  class='btn btn-primary'>Click Here</span></a><span></div></div></html>"
-
-                                                             }
-                                                             mailUtil(mailOption).sendMail();
-
-
-
-                                                        }});
-
-
-                                                   }
-                                             }); 
+                                                  
+                                               }
+                                         });  **/
 
 
                                          };
