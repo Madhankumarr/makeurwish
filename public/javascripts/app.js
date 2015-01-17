@@ -46,7 +46,7 @@ app.controller('logincontroller',function($http,$scope){
        	
 	};
 
-  document.getElementById
+  
 
 });
     
@@ -54,11 +54,11 @@ app.controller('logincontroller',function($http,$scope){
 app.controller('homecontroller',function($scope,$http){
 
   $scope.status=false;
-  $scope.submit=false;
+  $scope.flag=false;
      
   this.submitForm=function() {
 
-                $scope.submit=true;
+                $scope.flag=true;
 
                var fd= new FormData(document.forms.namedItem("wishForm"));
              
@@ -66,7 +66,11 @@ app.controller('homecontroller',function($scope,$http){
                  var alpha=name.files[0];
                  var fmdata= new FormData();
                  fmdata.append('file',alpha);
-
+                 function isEmpty(str) {
+                          return (!str || 0 === str.length);
+                      }
+           if(!isEmpty(this.Name) && !isEmpty(this.wish))
+           {
                  $http.post('http://makeurwish.tk/fileupload.php', fmdata, {
                         withCredentials: true,
                         headers: {'Content-Type': undefined },
@@ -108,7 +112,7 @@ app.controller('homecontroller',function($scope,$http){
                             console.log("error");
                             if(data==null || data==undefined || data=='')
                             {
-                               $scope.message="Error in upload";
+                               $scope.message="Error in upload. Please try again later.";
                             }
                             else
                             {
@@ -119,9 +123,14 @@ app.controller('homecontroller',function($scope,$http){
                               images.innerHTML="";
                               fileinfo.innerHTML="";
                   } );
+              }
+              else
+              {
 
-    
-       
+                $scope.message = "Please enter your name and wish";
+                $scope.status=true;
+
+              }       
 	
 };
 

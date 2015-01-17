@@ -57,8 +57,6 @@ router.get('/userhome',function(req,res){
     }
 
 });
-
-
 /** Login success route **/
 
 router.post('/home',function(req,res,next){
@@ -97,6 +95,43 @@ loginSchema.find({username:req.body.fname,
 
 });
 
+/**dealing with get request**/
+router.get('/home',function(req,res,next){
+
+loginSchema.find({username:req.param("fname").trim(),
+          password:req.param("pass")}).exec(function(err,login){
+
+            if(err || login.length<=0){
+
+              console.log('Invalid User'+err);
+              console.log(req.param("fname") +" "+req.param("pass"));
+               res.render('error.html');
+
+            }
+            else if(login)
+            {
+              if(login[0].status==1)
+              {
+                console.log("user already wished!");
+                res.render('login.html');
+              }
+              else
+              {
+               console.log(req.body.fname +" "+req.body.pass);
+               req.session.username=req.param('fname');
+               req.session.password=req.param('pass');
+               req.session.wishid=login[0].wishid;
+               console.log(req.session.username +" "+req.session.password+" "+login[0].wishid);
+               res.contentType('application/html');
+               res.redirect('/userhome');
+             }
+               
+            }
+          });
+
+
+});
+
 
 /** Upload user wishes route **/
 
@@ -114,7 +149,7 @@ if(req.session.username!=undefined && req.session.password!=undefined)
             myfields.photopath='http://makeurwish.tk/'+fields.photopath;
             console.log(myfields);
             console.log(typeof myfields);
-            res.json({'status':'Your post uploaded'});
+            res.json({'status':'Your post has been uploaded'});
              
           });
           form.on('end', function(fields, files) {
@@ -208,116 +243,135 @@ router.post('/signup', function (req, res){
      console.log(occationdt);
      var randomnumber=Math.floor(Math.random()*5001);
      var mydate=new Date(occationdt);
-     var mydate1=mydate.getUTCFullYear()+"/"+mydate.getUTCMonth()+"/"+mydate.getUTCDate();
+
+          if ( Object.prototype.toString.call(mydate) === "[object Date]"  && mydate!="Invalid Date") {
+
+                if ( isNaN( mydate.getTime() ) ) {  // d.valueOf() could also work
+                  res.json({status:'Problem with the occation date. Please enter it in mm/dd/yyyy format'});
+                   console.log("Date error");
+                }
+                else {
+                  // date is valid
+                  console.log(isNaN( mydate.getTime()));
+                     var mydate1=mydate.getUTCFullYear()+"/"+mydate.getUTCMonth()+"/"+mydate.getUTCDate();
+                 counterSchema.find({counterid:'wishid'}).exec(function(err,counter){
+
+                      if(err){
+                        console.log(err);
+                      }
+                      else if(counter)
+                      {
+                         mycounter=counter;
+                        
+                        console.log("counter val"+counter+mycounter);
+
+                                      var record=new usersSchema({
+                                       wishid:mycounter[0].counterval, 
+                                       email: req.body.email,
+                                       celebName:req.body.celebName,
+                                       celebMail:req.body.celebEmail,
+                                       occation: req.body.occation,
+                                       occdate:mydate1,
+                                       timeStamp: new Date(Date.now()),
+                                       friendsMail:req.body.emails,
+                                       status:"created"
+                                    });
+
+                                     var userrec1=new loginSchema({
+                                               wishid:mycounter[0].counterval, 
+                                               username: req.body.email,
+                                               password:randomnumber.toString()+mycounter[0].counterval,
+                                               status:0 });
+
+                                    var mailOption1={
+                                      from:'MakeUrWish<admin@makeawish.com>',
+                                      to: req.body.email,
+                                      subject:"MakeUrWish - "+req.body.celebName+" - "+req.body.occation,
+                                      html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/home?fname="+req.body.email+"&pass="+randomnumber.toString()+mycounter[0].counterval+"'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"
+                                    };
+
+                                    var mail1=mailUtil(mailOption1);
+                                        record.save(function(err){
+                                        if(err){
+                                            console.log(err);
+                                            res.status(500).json({status:'Server Error. Please try again later'});
+                                        }
+                                        else{ 
+                                               userrec1.save(function(err){
+                                            if(err){
+                                                  console.log("error in creating user account "+err);
+                                                  res.status(500).json({status:'Server Error. Please try again later'});
+                                             }
+                                           else{                              
+                                                console.log("user id created "+req.body.email);
+                                            }});
+                                              mail1.sendMail();
+                                             console.log("saved "+req.body.email);
+                                        }});                    
+                                    length=req.body.emails.length;
+                                    for(i=0;i<length;i++)
+                                    {
+
+                                               randomnumber=Math.floor(Math.random()*5001);
+                                                var userrec=new loginSchema({
+                                               wishid:mycounter[0].counterval, 
+                                               username: req.body.emails[i],
+                                               password:randomnumber.toString()+mycounter[0].counterval,
+                                               status:0 });
+
+
+                                            var mailOption1={
+                                              from:'MakeUrWish<admin@makeawish.com>',
+                                              to: req.body.emails[i],
+                                              subject:"MakeUrWish - "+req.body.celebName+" - "+req.body.occation,
+                                              html:"<!DOCTYPE html><html><div style='color:#FFF; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS'; text-align:center;font-size: 35px; border-bottom:1px solid white; font-style: initial'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/fname="+req.body.emails[i]+"&pass="+randomnumber.toString()+mycounter[0].counterval+"'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"};
+
+                                            var mail2=mailUtil(mailOption1);
+                                                       userrec.save(function(err){
+                                                        if(err){
+                                                              console.log("error in creating user account "+err);
+                                                              res.status(500).json({status:'Server Error. Please try again later'});
+                                                         }
+                                                       else{                                           
+                                                            console.log("user id created "+req.body.emails[i]);
+                                                        }});                          
+                                                         mail2.sendMail();
+                                                         console.log("saved "+req.body.emails[i]);
+                                                  
+                                      }
+                                     
+                                     counterSchema.findOneAndUpdate({counterid:'wishid'},{counterval:mycounter[0].counterval+1},
+
+                                      function(err,counter){
+
+                                        if(err)
+                                        {
+                                          console.log("Counter update err after signup "+err);
+                                        }
+                                        else
+                                        {
+                                          console.log('Counter update'+counter);
+                                        }
+                                      });
+
+
+                                  res.json({status:'To wish '+req.body.celebName+' click the link sent to your mail',counter:mycounter});
+                                   
+                      }
+                    }); 
+                
+                }
+             
+            
+          }
+
+          else {
+           res.json({status:'Problem with the occation date. Please enter it in mm/dd/yyyy format'});
+            console.log("Date error");
+    
+          }
     
     
-     
-     counterSchema.find({counterid:'wishid'}).exec(function(err,counter){
-
-            if(err){
-              console.log(err);
-            }
-            else if(counter)
-            {
-               mycounter=counter;
-              
-              console.log("counter val"+counter+mycounter);
-
-                            var record=new usersSchema({
-                             wishid:mycounter[0].counterval, 
-                             email: req.body.email,
-                             celebName:req.body.celebName,
-                             celebMail:req.body.celebEmail,
-                             occation: req.body.occation,
-                             occdate:mydate1,
-                             timeStamp: new Date(Date.now()),
-                             friendsMail:req.body.emails,
-                             status:"created"
-                          });
-
-                           var userrec1=new loginSchema({
-                                     wishid:mycounter[0].counterval, 
-                                     username: req.body.email,
-                                     password:randomnumber.toString()+mycounter[0].counterval,
-                                     status:0 });
-
-                          var mailOption1={
-                            from:'MakeUrWish<admin@makeawish.com>',
-                            to: req.body.email,
-                            subject:"MakeUrWish - "+req.body.celebName+" - "+req.body.occation,
-                            html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/login'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"
-                          };
-
-                          var mail1=mailUtil(mailOption1);
-                              record.save(function(err){
-                              if(err){
-                                  console.log(err);
-                                  res.status(500).json({status:'Server Error. Please try again later'});
-                              }
-                              else{ 
-                                     userrec1.save(function(err){
-                                  if(err){
-                                        console.log("error in creating user account "+err);
-                                        res.status(500).json({status:'Server Error. Please try again later'});
-                                   }
-                                 else{                              
-                                      console.log("user id created "+req.body.email);
-                                  }});
-                                    mail1.sendMail();
-                                   console.log("saved "+req.body.email);
-                              }});                    
-                          length=req.body.emails.length;
-                          for(i=0;i<length;i++)
-                          {
-
-                                     randomnumber=Math.floor(Math.random()*5001);
-                                      var userrec=new loginSchema({
-                                     wishid:mycounter[0].counterval, 
-                                     username: req.body.emails[i],
-                                     password:randomnumber.toString()+mycounter[0].counterval,
-                                     status:0 });
-
-
-                                  var mailOption1={
-                                    from:'MakeUrWish<admin@makeawish.com>',
-                                    to: req.body.emails[i],
-                                    subject:"MakeUrWish -"+req.body.celebName+" - "+req.body.occation,
-                                    html:"<!DOCTYPE html><html><div style='color:#FFF; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS'; text-align:center;font-size: 35px; border-bottom:1px solid white; font-style: initial'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/login'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"};
-
-                                  var mail2=mailUtil(mailOption1);
-                                             userrec.save(function(err){
-                                              if(err){
-                                                    console.log("error in creating user account "+err);
-                                                    res.status(500).json({status:'Server Error. Please try again later'});
-                                               }
-                                             else{                                           
-                                                  console.log("user id created "+req.body.emails[i]);
-                                              }});                          
-                                               mail2.sendMail();
-                                               console.log("saved "+req.body.emails[i]);
-                                        
-                            }
-                           
-                           counterSchema.findOneAndUpdate({counterid:'wishid'},{counterval:mycounter[0].counterval+1},
-
-                            function(err,counter){
-
-                              if(err)
-                              {
-                                console.log("counter update err "+err);
-                              }
-                              else
-                              {
-                                console.log('Counter update'+counter);
-                              }
-                            });
-
-
-                        res.json({status:'To wish '+req.body.celebName+' click the link sent to your mail',counter:mycounter});
-                         
-            }
-          }); 
-      
             
             
        } 
