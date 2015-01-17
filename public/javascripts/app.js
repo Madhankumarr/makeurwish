@@ -54,16 +54,16 @@ app.controller('logincontroller',function($http,$scope){
 app.controller('homecontroller',function($scope,$http){
 
   $scope.status=false;
+  $scope.submit=false;
      
   this.submitForm=function() {
 
- var fd= new FormData(document.forms.namedItem("wishForm"));
-    console.log(fd);
+                $scope.submit=true;
 
-
-                  var name= document.getElementById('pic');
+               var fd= new FormData(document.forms.namedItem("wishForm"));
+             
+               var name= document.getElementById('pic');
                  var alpha=name.files[0];
-                console.log(alpha.name);
                  var fmdata= new FormData();
                  fmdata.append('file',alpha);
 
