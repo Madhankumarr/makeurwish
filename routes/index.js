@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
 });
 
 
-router.get('/mylogin',function(req,res){
+router.get('/login',function(req,res){
 
   res.render('login.html', { title: 'Make ur wish | Home' });
 
@@ -25,13 +25,6 @@ router.get('/29871055',function(req,res){
   res.render('29871055.html', { title: 'Make ur wish | Home' });
 
 });
-
-router.get('/fileup',function(req,res){
-
-  res.render('filupload.html', { title: 'Make ur wish | Home' });
-
-});
-
 router.get('/wishes/:wishid',function(req,res){
 
 
@@ -62,14 +55,6 @@ router.get('/userhome',function(req,res){
     {
       res.render('login.html');
     }
-
-});
-
-
-
-router.get('/wishes',function(req,res){
-
-  res.render('wishes.html', { title: 'Make a wish' });
 
 });
 
@@ -260,7 +245,7 @@ router.post('/signup', function (req, res){
                             from:'MakeUrWish<admin@makeawish.com>',
                             to: req.body.email,
                             subject:"MakeUrWish - "+req.body.celebName+" - "+req.body.occation,
-                            html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/mylogin'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"
+                            html:"<!DOCTYPE html><html><div style='color:white; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS';text-align: center;font-size: 35px; border-bottom:1px solid white; font-style: italic'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/login'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"
                           };
 
                           var mail1=mailUtil(mailOption1);
@@ -297,7 +282,7 @@ router.post('/signup', function (req, res){
                                     from:'MakeUrWish<admin@makeawish.com>',
                                     to: req.body.emails[i],
                                     subject:"MakeUrWish -"+req.body.celebName+" - "+req.body.occation,
-                                    html:"<!DOCTYPE html><html><div style='color:#FFF; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS'; text-align:center;font-size: 35px; border-bottom:1px solid white; font-style: initial'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/mylogin'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"};
+                                    html:"<!DOCTYPE html><html><div style='color:#FFF; font-family: calibri; font-style: italic;'><div style='background: rgb(1, 30, 54);border: 1px solid black; padding:25px;'><h2 style='font-family:'Trebuchet MS'; text-align:center;font-size: 35px; border-bottom:1px solid white; font-style: initial'>Make Ur Wish</h2><br/>A Warm greetings from MakeUrWish,<br/><div style=' margin-left: 30px;'>"+"<br/>Your password:<b><i> "+randomnumber.toString()+mycounter[0].counterval+"<br/><a href='http://makeurwish.herokuapp.com/login'><span  class='btn btn-primary'>Click here</span></a> to wish "+req.body.celebName+"</i></b></div></div></div><link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'><link href='http://fonts.googleapis.com/css?family=Great+Vibes' rel='stylesheet' type='text/css'></html>"};
 
                                   var mail2=mailUtil(mailOption1);
                                              userrec.save(function(err){
