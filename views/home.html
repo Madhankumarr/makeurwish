@@ -13,7 +13,7 @@
         <div class="container-fluid">
             <h2>Make Ur Wish</h2>
             <div class="container" style="position:relative" ng-controller='homecontroller as home'>
-              <div style="position: absolute;top: 4%;left: 48%;" ng-show={{!status&&flag}}><img src="/images/ajax-loader6.gif"></div>
+              <div style="position: absolute;top: 4%;left: 48%;" ng-show={{(!status)&&(flag)}}><img src="/images/ajax-loader6.gif"></div>
                   <div id="message" ng-show='status'> {{message}} </div>
 			<form class="border" name="wishForm"  enctype="multipart/form-data" ng-submit='home.submitForm()' novalidate>
                 <h1 class="head">Your Name</h1>
