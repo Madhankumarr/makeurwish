@@ -106,7 +106,14 @@ app.controller('homecontroller',function($scope,$http){
                         })
                        .error(function(data, status, headers, config) {
                             console.log("error");
-                             $scope.message = data;
+                            if(data==null || data==undefined || data=='')
+                            {
+                               $scope.message="Error in upload";
+                            }
+                            else
+                            {
+                                $scope.message = data;
+                            }
                               $scope.status=true;
                               document.forms.namedItem("wishForm").reset();
                               images.innerHTML="";
