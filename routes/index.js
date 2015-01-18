@@ -121,6 +121,7 @@ loginSchema.find({username:req.param("fname").trim(),
                req.session.username=req.param('fname');
                req.session.password=req.param('pass');
                req.session.wishid=login[0].wishid;
+               req.session.wishstatus="entered";
                console.log(req.session.username +" "+req.session.password+" "+login[0].wishid);
                res.contentType('application/html');
                res.redirect('/userhome');
@@ -142,6 +143,9 @@ if(req.session.username!=undefined && req.session.password!=undefined)
           var form = new formidable.IncomingForm(); 
           var myfields={};
           var file_name="default.jpg";
+          var usrsession=req.session.wishstatus;
+      if(usrsession=="entered")
+      {
           form.parse(req, function(err, fields, files) {
 
             myfields.fname=fields.fname;
@@ -201,6 +205,8 @@ if(req.session.username!=undefined && req.session.password!=undefined)
                                  else{ 
                                 
                                       console.log("User wish added to db "+req.session.username);
+                                      req.session.wishstatus="wished";
+
 
                        }});
 
@@ -222,6 +228,11 @@ if(req.session.username!=undefined && req.session.password!=undefined)
               res.json({'status':'Error in upload. Please try again later'});  
             }
           });
+        }
+        else
+        {
+          res.json({'status':'Thank You! You already made a wish!'});  
+        }
       
       }
       else
