@@ -84,7 +84,7 @@ loginSchema.find({username:req.body.fname,
                req.session.username=req.body.fname;
                req.session.password=req.body.pass;
                req.session.wishid=login[0].wishid;
-               req.session.wishstatus="entered";
+               req.session.wishstatus=login[0].status;
                console.log(req.session.username +" "+req.session.password+" "+login[0].wishid);
                res.contentType('application/html');
                res.redirect('/userhome');
@@ -122,7 +122,7 @@ loginSchema.find({username:req.param("fname").trim(),
                req.session.username=req.param('fname');
                req.session.password=req.param('pass');
                req.session.wishid=login[0].wishid;
-               req.session.wishstatus="entered";
+               req.session.wishstatus=login[0].status;
                console.log(req.session.username +" "+req.session.password+" "+login[0].wishid);
                res.contentType('application/html');
                res.redirect('/userhome');
@@ -141,20 +141,19 @@ router.post('/upload', function (req, res){
 
 if(req.session.username!=undefined && req.session.password!=undefined)
 {
-      if(req.session.wishstatus=="entered")
+         
+      if(req.session.wishstatus==0)
       {
           var form = new formidable.IncomingForm(); 
           var myfields={};
           var file_name="default.jpg";
+          console.log('req'+req.session.wishstatus);
           form.parse(req, function(err, fields, files) {
 
             myfields.fname=fields.fname;
             myfields.wish=fields.wish;
             myfields.photopath='http://makeurwish.tk/'+fields.photopath;
-            console.log(myfields);
-            console.log(typeof myfields);
-            res.json({'status':'Your post has been uploaded'});
-             
+            
           });
           form.on('end', function(fields, files) {
 
@@ -184,51 +183,57 @@ if(req.session.username!=undefined && req.session.password!=undefined)
                {
                console.log('no foto to upload');
              }  **/
+             function isEmpty(str) {
+                          return (!str || 0 === str.length);
+                }
+             if(isEmpty(myfields.fname) || isEmpty(myfields.wish))
+             {
+                 res.json({'status':'Please enter your name and wish'});    
+             }
+             else
+            {
+               var record=new wishesSchema({
+                    username:req.session.username,
+                    name:myfields.fname,
+                    wishid:req.session.wishid,
+                    wish:myfields.wish,
+                    photopath:myfields.photopath,
+                    timeStamp:new Date(Date.now())
+              });
 
+            record.save(function(err){
+                                    if(err){
+                                          console.log("error in saving user wishes to db "+err);
+                                          res.status(500).json({status:'Error in upload. Please try again later'});
+                                     }
+                                   else{ 
+                                  
+                                        console.log("User wish added to db "+req.session.username);
+                                        req.session.wishstatus=1;
+                                        console.log("wishstats:"+req.session.wishstatus);
+                                      }
+                                    });
 
-             var record=new wishesSchema({
-                  username:req.session.username,
-                  name:myfields.fname,
-                  wishid:req.session.wishid,
-                  wish:myfields.wish,
-                  photopath:myfields.photopath,
-                  timeStamp:new Date(Date.now())
+             loginSchema.findOneAndUpdate({wishid:req.session.wishid,username:req.session.username,status:0},{status:1}, function(err,user){
+
+                      if(err || user == undefined || user.length<=0){
+
+                          console.log("No user found for loginSchema update"+err);
+                        }
+                        else if(user)
+                        {
+                            console.log("User Login Schema status updated"+user);
+                        }
+                         res.json({'status':'Your post has been uploaded'});
+                  });
+                }
+              }
+              catch(err)
+              { 
+                console.log('Error in upload '+err);
+                res.json({'status':'Error in upload. Please try again later'});  
+              }
             });
-
-
-
-          record.save(function(err){
-                                  if(err){
-                                        console.log("error in saving user wishes to db "+err);
-                                        res.status(500).json({status:'Error in upload. Please try again later'});
-                                   }
-                                 else{ 
-                                
-                                      console.log("User wish added to db "+req.session.username);
-                                      req.session.wishstatus="wished";
-
-
-
-                       }});
-
-           loginSchema.findOneAndUpdate({wishid:req.session.wishid,username:req.session.username,status:0},{status:1}, function(err,user){
-
-                    if(err || user == undefined || user.length<=0){
-
-                        console.log("No user found for loginSchema update"+err);
-                      }
-                      else if(user)
-                      {
-                          console.log("User Login Schema status updated"+user);
-                      }
-                });
-            }
-            catch(err)
-            { 
-              console.log('Error in upload '+err);
-              res.json({'status':'Error in upload. Please try again later'});  
-            }
-          });
         }
         else
         {
@@ -372,20 +377,12 @@ router.post('/signup', function (req, res){
                       }
                     }); 
                 
-                }
-             
-            
+                }         
           }
-
           else {
            res.json({status:'Problem with the occation date. Please enter it in mm/dd/yyyy format'});
             console.log("Date error");
-    
-          }
-    
-    
-            
-            
+          }         
        } 
     catch(err)
     {

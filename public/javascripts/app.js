@@ -69,7 +69,7 @@ app.controller('homecontroller',function($scope,$http){
                                                   $scope.status=true;         
                                       } );
                  }
-           if(!isEmpty(this.Name) && !isEmpty(this.wish))
+           if(!isEmpty($scope.Name) && !isEmpty($scope.wish))
            {
                 if(alpha!=undefined)
                 {
@@ -109,6 +109,7 @@ app.controller('homecontroller',function($scope,$http){
                 }
                 else
                 {
+                  fd.append('photopath','default.jpg');
                   wishUpload();
                   document.forms.namedItem("wishForm").reset();
                   images.innerHTML="";
