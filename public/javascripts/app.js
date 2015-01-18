@@ -1,18 +1,12 @@
 (function(){
 	var app=angular.module('myapp',[]);
 app.controller('logincontroller',function($http,$scope){
-
 	this.credentials={
 		userName:null,
 		password:null
 	};
     this.status=false;
-  
-    
-
 	this.validUser=function(){
-		 console.log("called");
-
          $http.post("/home", {
                  fname: this.credentials.userName,
                 pass: this.credentials.password
@@ -33,58 +27,32 @@ app.controller('logincontroller',function($http,$scope){
 
                $scope.message="Something went wrong. Please try again"; 
                 console.log("error"+data);
-
                 if(data.message=='true')
                 {
                     $scope.status=true;
                     document.forms.namedItem('loginForm').reset();
                     console.log('Server error');
-
-                }
-    
-            });
-       	
+                }   
+            });      	
 	};
 
-  
-
-});
-    
-    
+});    
 app.controller('homecontroller',function($scope,$http){
-
   $scope.status=false;
-  $scope.flag=false;
-     
+  $scope.flag=false;   
   this.submitForm=function() {
-
-                $scope.flag=true;
-
-               var fd= new FormData(document.forms.namedItem("wishForm"));
-             
-               var name= document.getElementById('pic');
+               $scope.flag=true;
+               var fd= new FormData(document.forms.namedItem("wishForm"));            
+                var name= document.getElementById('pic');
                  var alpha=name.files[0];
                  var fmdata= new FormData();
                  fmdata.append('file',alpha);
                  function isEmpty(str) {
                           return (!str || 0 === str.length);
                       }
-           if(!isEmpty(this.Name) && !isEmpty(this.wish))
-           {
-                 $http.post('http://makeurwish.tk/fileupload.php', fmdata, {
-                        withCredentials: true,
-                        headers: {'Content-Type': undefined },
-                        transformRequest: angular.identity,
-                        enctype:'multipart/form-data'
-                    }).success( function(mydata) {
-                            console.log(mydata);
-                                    $scope.message = mydata.status;
-                                    $scope.status=true;
-
-                                    fd.append('photopath',mydata.filename);
-                                   if(mydata.upload==1) 
-                                   {
-                                        $http.post('upload', fd, {
+                 function wishUpload()
+                 {
+                    $http.post('upload', fd, {
                                             withCredentials: true,
                                             headers: {'Content-Type': undefined },
                                             transformRequest: angular.identity,
@@ -98,15 +66,30 @@ app.controller('homecontroller',function($scope,$http){
                                            .error(function(data, status, headers, config) {
                                                 console.log("error");
                                                  $scope.message = data.status;
-                                                  $scope.status=true;
-                                                 
+                                                  $scope.status=true;         
                                       } );
+                 }
+           if(!isEmpty(this.Name) && !isEmpty(this.wish))
+           {
+                if(alpha!=undefined)
+                {
+                 $http.post('http://makeurwish.tk/fileupload.php', fmdata, {
+                        withCredentials: true,
+                        headers: {'Content-Type': undefined },
+                        transformRequest: angular.identity,
+                        enctype:'multipart/form-data'
+                    }).success( function(mydata) {
+                            console.log(mydata);
+                                    $scope.message = mydata.status;
+                                    $scope.status=true;
+                                   if(mydata.upload==1) 
+                                   {
+                                       fd.append('photopath',mydata.filename);
+                                       wishUpload();      
                                     }
-
                                     document.forms.namedItem("wishForm").reset();
                                     images.innerHTML="";
                                     fileinfo.innerHTML="";
-                    
                         })
                        .error(function(data, status, headers, config) {
                             console.log("error");
@@ -123,19 +106,19 @@ app.controller('homecontroller',function($scope,$http){
                               images.innerHTML="";
                               fileinfo.innerHTML="";
                   } );
+                }
+                else
+                {
+                  wishUpload();
+                }
               }
               else
               {
-
                 $scope.message = "Please enter your name and wish";
                 $scope.status=true;
-
-              }       
-	
+              }       	
 };
-
 });
-
  app.directive("fileread", [function () {
     return {
         scope: {
@@ -154,11 +137,7 @@ app.controller('homecontroller',function($scope,$http){
         }
     }
 }]);
- 
-
- app.controller('SignupController',function($scope,$http){
-     
-     
+ app.controller('SignupController',function($scope,$http){   
        var emails=[];
        var friend=  document.getElementById('friend');
        $scope.buttonShow=true;
@@ -169,9 +148,7 @@ app.controller('homecontroller',function($scope,$http){
             return re.test(email);
     } 
     function myKeyPress(e){
-
                 var keynum;
-
                 if(window.event){ // IE					
                     keynum = e.keyCode;
                 }
@@ -182,8 +159,7 @@ app.controller('homecontroller',function($scope,$http){
                 return keynum;
      }
     function myTest(keynum,res)
-    {
-         
+    {       
          if (keynum==32 && res==true)
         {
             return true;
@@ -191,24 +167,21 @@ app.controller('homecontroller',function($scope,$http){
         else
           return false;
     }
-
-
   this.addUser=function() {
       $scope.buttonShow=false;
       friend.innerHTML="<h4>Friend's Mail Ids</h4><div id='emailbox' class='form-control' contenteditable='false' style='height:auto;min-height:34px'><div id='emailval'  contenteditable='true' placeholder='Friend&apos;s email' style='min-width: 10px;min-height: 10px;'></div></div>";
       $scope.status=false;
-    var  mailbox=document.getElementById('emailbox');
-    var emailval=document.getElementById('emailval');
-    var test=false;
-    var val="";
+      var  mailbox=document.getElementById('emailbox');
+      var emailval=document.getElementById('emailval');
+      var test=false;
+      var val="";
         emailval.addEventListener('keypress',function(event){
         val=emailval.innerText || emailval.textContent;
         console.log(val);
         test=validateEmail(val.trimLeft());
         console.log(test);
         if(myTest(myKeyPress(event),test)==true)
-        {
-            
+        { 
             emails.push(val.trim().toLowerCase());
             block1=document.createElement('span');
             block2=document.createElement('span');
@@ -221,8 +194,6 @@ app.controller('homecontroller',function($scope,$http){
                 index= emails.indexOf(parent.textContent.trim());
                 emails.splice(index,1);
                 console.log(emails.length);
-
-
             });
             block1.setAttribute('contenteditable','false');
             block1.setAttribute('class','emailblock');
@@ -231,16 +202,13 @@ app.controller('homecontroller',function($scope,$http){
             block3=document.createElement('span');
             block3.appendChild(block1);
             block3.appendChild(block2);
-       
             mailbox.insertBefore(block3,emailval);
-             emailval.innerHTML="";
+            emailval.innerHTML="";
             console.log(emails);
         }                              
       });    
   };
-
 this.signupUser=function(){
-
      var emailval=document.getElementById('emailval');
      if(emailval!=null)
      {
@@ -252,7 +220,7 @@ this.signupUser=function(){
           }
       }
     var fd= {
-     email:this.email,
+    email:this.email,
     celebName: this.celebName,
     celebEmail:this.celebEmail,
     date:this.date,
@@ -273,11 +241,7 @@ this.signupUser=function(){
             console.log("error");
              $scope.message = "Network Error. Please Try again later";
               $scope.status=true;
-
         } );
-};
-    
+   };  
  });
-    
-
 })();
