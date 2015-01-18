@@ -399,8 +399,8 @@ try
                 var schedule = require('node-schedule');
                  var rule = new schedule.RecurrenceRule();
                   rule.dayOfWeek = [0, new schedule.Range(0, 6)];
-                  rule.hour = 21;
-                  rule.minute =59;
+                  rule.hour = 0;
+                  rule.minute =1;
 
 
                 var j = schedule.scheduleJob(rule, function(){

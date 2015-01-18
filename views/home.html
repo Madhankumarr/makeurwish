@@ -17,12 +17,12 @@
                   <div id="message" ng-show='status'> {{message}} </div>
 			<form class="border" name="wishForm"  enctype="multipart/form-data" ng-submit='home.submitForm()' novalidate>
                 <h1 class="head">Your Name</h1>
-                <input type="text" class="form-control" name="fname" ng-focus="status=false" ng-model="home.Name" required/>
+                <input type="text" class="form-control" name="fname" ng-focus="status=false" ng-model="Name" required/>
 
                  <h1 class="head">Your Wish</h1>
                 <div class="formelements">
                  
-          <textarea class="form-control" rows="2" id="wish" name='wish' ng-focus="status=false" ng-model='home.wish' required></textarea>
+          <textarea class="form-control" rows="2" id="wish" name='wish' ng-focus="status=false" ng-model='wish' required></textarea>
                      <h1 class="head">Upload a pic</h1>
                     <span class="btn btn-default btn-file">
                      <input type="file" id="pic" name="pic" class="btn" ng-focus="status=false" fileread='home.pic' accept="image/*" required>Select file<i class="fa fa-upload icons"></i></input>
