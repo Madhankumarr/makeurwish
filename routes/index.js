@@ -84,6 +84,7 @@ loginSchema.find({username:req.body.fname,
                req.session.username=req.body.fname;
                req.session.password=req.body.pass;
                req.session.wishid=login[0].wishid;
+               req.session.wishstatus="entered";
                console.log(req.session.username +" "+req.session.password+" "+login[0].wishid);
                res.contentType('application/html');
                res.redirect('/userhome');
@@ -231,7 +232,7 @@ if(req.session.username!=undefined && req.session.password!=undefined)
         }
         else
         {
-          res.json({'status':'Thank You! You already made a wish!'});  
+          res.json({'status':'Thank You. You already made a wish.'});  
         }
       
       }
