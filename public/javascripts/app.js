@@ -110,6 +110,9 @@ app.controller('homecontroller',function($scope,$http){
                 else
                 {
                   wishUpload();
+                  document.forms.namedItem("wishForm").reset();
+                  images.innerHTML="";
+                  fileinfo.innerHTML="";
                 }
               }
               else

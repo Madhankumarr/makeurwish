@@ -141,12 +141,11 @@ router.post('/upload', function (req, res){
 
 if(req.session.username!=undefined && req.session.password!=undefined)
 {
+      if(req.session.wishstatus=="entered")
+      {
           var form = new formidable.IncomingForm(); 
           var myfields={};
           var file_name="default.jpg";
-          var usrsession=req.session.wishstatus;
-      if(usrsession=="entered")
-      {
           form.parse(req, function(err, fields, files) {
 
             myfields.fname=fields.fname;
@@ -207,6 +206,7 @@ if(req.session.username!=undefined && req.session.password!=undefined)
                                 
                                       console.log("User wish added to db "+req.session.username);
                                       req.session.wishstatus="wished";
+
 
 
                        }});
